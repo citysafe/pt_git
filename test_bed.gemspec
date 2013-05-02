@@ -4,9 +4,12 @@ require File.expand_path('../lib/test_bed/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["TheHamon"]
   gem.email         = ["example@example.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{ The gem is intended to simplify developer's live when dealing with pivotal tracker (PT) and git. }
+  gem.summary       = %q{ }
   gem.homepage      = ""
+
+  gem.add_runtime_dependency "grit"
+  gem.add_runtime_dependency "pivotal-tracker"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
