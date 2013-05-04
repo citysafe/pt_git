@@ -5,5 +5,5 @@ require 'pivotal-tracker'
 require 'optparse'
 require 'fileutils'
 
-require 'test_bed/config'
+require 'test_bed/configuration'
 require 'test_bed/base'
