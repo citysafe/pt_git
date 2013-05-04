@@ -1,7 +1,5 @@
 module TestBed
   class Configuration
-    GIT_DIR = ENV['GIT_DIR'] || '.git'
-
     attr_accessible :repository
 
     def initialize(*args)
@@ -18,15 +16,19 @@ module TestBed
 
     private
 
+      def git_dir
+        ENV['GIT_DIR'] || '.git'
+      end
+
       def git_root
         directories = Dir.pwd.split(::File::SEPARATOR)
 
         begin
-          break if File.directory?(File.join(directories, GIT_DIR))
+          break if File.directory?(File.join(directories, git_dir))
         end while directories.pop
 
-        raise "No #{GIT_DIR} directory found" if directories.empty?
-        File.join(directories, GIT_DIR)
+        raise "No #{git_dir} directory found" if directories.empty?
+        File.join(directories, git_dir)
       end
   end
 end
