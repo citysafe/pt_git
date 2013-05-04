@@ -1,8 +1,8 @@
 module TestBed
   class Configuration
-    attr_accessible :repository
+    attr_reader :repository
 
-    def initialize(*args)
+    def initialize(args=nil)
       @repository = Grit::Repo.new(git_root)
     end
 
@@ -12,6 +12,18 @@ module TestBed
 
     def project_id
       repository.config['pivotal.project-id']
+    end
+
+    def use_ssl?
+      repository.config['pivotal.use-ssl'] =~ /(1|true)/
+    end
+
+    def full_name
+      repository.config['pivotal.full-name'] || repository.config['user.name']
+    end
+
+    def valid?
+      api_token && project_id
     end
 
     private
