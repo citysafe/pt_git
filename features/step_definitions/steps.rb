@@ -31,23 +31,29 @@ When /^I navigate to this repo$/ do
 end
 
 When /^I run the command to list the next items$/ do
-  run_simple('pt ls')
+  ENV['GIT_DIR'] = 'tmp/aruba/test_repo'
+  file = File.new('tmp/output.log', 'w+')
+  orig_std_out = $stdout.clone
+  $stdout.reopen(file)
+  $stdout.sync = true
+  TestBed::Command.run(['ls'])
+  $stdout.reopen(orig_std_out)
+
+  @output = file.rewind && file.read
 end
 
 Then /^the output should contain (\d+) items$/ do |count|
-  # TODO: Need to figure out why the `puts` output is not in all_output
-
   (1..count.to_i).each do |index|
-    assert_partial_output("Story #{index}", all_output)
+    expect(@output).to include("Story #{index}")
   end
 end
 
 Then /^it should display the task ID, description and type$/ do
-  assert_partial_output("4459994", all_output)
-  assert_partial_output("Story 1", all_output)
-  assert_partial_output("feature", all_output)
+  expect(@output).to include('4459994')
+  expect(@output).to include('Story 1')
+  expect(@output).to include('feature')
 end
 
 Then /^the (\d+)th item should not be present in the output$/ do |index|
-  unescape(all_output).should_not =~ /Story #{index}/
+  expect(@output).not_to include("Story #{index}")
 end
