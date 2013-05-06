@@ -28,19 +28,19 @@ module TestBed
 
     private
 
-      def git_dir
-        ENV['GIT_DIR'] || '.git'
-      end
+    def git_dir
+      ENV['GIT_DIR'] || '.git'
+    end
 
-      def git_root
-        directories = Dir.pwd.split(::File::SEPARATOR)
+    def git_root
+      directories = Dir.pwd.split(::File::SEPARATOR)
 
-        begin
-          break if File.directory?(File.join(directories, git_dir))
-        end while directories.pop
+      begin
+        break if File.directory?(File.join(directories, git_dir))
+      end while directories.pop
 
-        raise "No #{git_dir} directory found" if directories.empty?
-        File.join(directories, git_dir)
-      end
+      raise "No #{git_dir} directory found" if directories.empty?
+      File.join(directories, git_dir)
+    end
   end
 end
