@@ -17,12 +17,14 @@ Given /^the project contains (\d+) items in the backlog$/ do |count|
   api_url = PivotalTracker::Client.api_ssl_url
   fixtures_path = File.join(File.dirname(__FILE__), '../fixtures')
 
-  stub_request(:get, "#{api_url}/projects/#{@project_id}")
-              .to_return(body: File.read("#{fixtures_path}/project.xml"))
+  project_url      = "#{api_url}/projects/#{@project_id}"
+  project_response = File.read("#{fixtures_path}/project.xml")
+  stub_request(:get, project_url).to_return(body: project_response)
 
   params = "filter=current_state:unstarted%20story_type:bug,chore,feature&limit=10"
-  stub_request(:get, "#{api_url}/projects/#{@project_id}/stories?#{params}")
-              .to_return(body: File.read("#{fixtures_path}/stories.xml"))
+  stories_url      = "#{project_url}/stories?#{params}"
+  stories_response = File.read("#{fixtures_path}/stories.xml")
+  stub_request(:get, stories_url).to_return(body: stories_response)
 end
 
 When /^I navigate to this repo$/ do
