@@ -4,5 +4,5 @@ require 'optparse'
 require 'fileutils'
 
 require 'test_bed/version'
-require 'test_bed/configuration'
-require 'test_bed/command'
+require 'test_bed/pivotal'
+require 'test_bed/project'
