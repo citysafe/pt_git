@@ -20,17 +20,6 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 end
 
-def stub_git_config(opts = {})
-  git_options = {
-    'pivotal.api-token' => '8a8a8a8',
-    'pivotal.project-id' => '123',
-    'pivotal.use-ssl' => '1',
-    'pivotal.full-name' => 'Tien Le',
-  }.merge opts
-
-  Grit::Repo.stub(:new).and_return mock('Grit::Repo', config: git_options)
-end
-
 # Capture stream output like STDOUT or STDERR
 def capture(stream)
   begin
