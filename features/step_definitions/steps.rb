@@ -31,7 +31,7 @@ When /^I navigate to this repo$/ do
 end
 
 When /^I run the command to list the next items$/ do
-  ENV['GIT_DIR'] = 'tmp/aruba/test_repo'
+  ENV['DOT_GIT_DIR'] = 'tmp/aruba/test_repo'
   @stdin  ||= StringIO.new
   @stdout ||= StringIO.new
   TestBed::Pivotal.new(@stdin, @stdout).list_backlog

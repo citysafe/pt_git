@@ -26,7 +26,7 @@ module TestBed
     private
 
     def git_dir
-      ENV['GIT_DIR'] || '.git'
+      ENV['DOT_GIT_DIR'] || '.git'
     end
 
     def git_root
