@@ -37,7 +37,7 @@ module TestBed
       return unless story
 
       branch_name = [story.story_type, story.id].join('-')
-      Project.config.repository.git.checkout({b: true, raise: true}, branch_name)
+      Project.config.repository.git.checkout({B: true, raise: true}, branch_name)
     end
 
   end
