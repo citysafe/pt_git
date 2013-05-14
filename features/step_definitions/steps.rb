@@ -32,14 +32,9 @@ end
 
 When /^I run the command to list the next items$/ do
   ENV['GIT_DIR'] = 'tmp/aruba/test_repo'
-  file = File.new('tmp/output.log', 'w+')
-  orig_std_out = $stdout.clone
-  $stdout.reopen(file)
-  $stdout.sync = true
-  TestBed::Command.run(['ls'])
-  $stdout.reopen(orig_std_out)
-
-  @output = file.rewind && file.read
+  @output = capture(:stdout) do
+    TestBed::Pivotal.new.list_backlog
+  end
 end
 
 Then /^the output should contain (\d+) items$/ do |count|
