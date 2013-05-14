@@ -19,6 +19,10 @@ module TestBed
       repository.config['pivotal.use-ssl'] =~ /(1|true)/
     end
 
+    def current_branch
+      repository.head.name
+    end
+
     private
 
     def git_dir

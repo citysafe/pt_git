@@ -7,9 +7,15 @@ module TestBed
     end
 
     def list_backlog
-      project.next_ten_stories.each_with_index do |story, index|
-        say "#{index}) #{story.story_type} #{story.id} #{story.name}"
+      stories = project.next_ten_stories
+      stories.each_with_index do |story, index|
+        say "#{index + 1}) #{story.story_type} #{story.id} #{story.name}"
       end
+
+      index = ask('Pick a story: ').to_i - 1
+      story = stories[index]
+
+      checkout_branch(story)
     end
 
     def project
@@ -21,5 +27,18 @@ module TestBed
     def say(str)
       @stdout.puts str
     end
+
+    def ask(prompt)
+      say prompt
+      @stdin.gets
+    end
+
+    def checkout_branch(story)
+      return unless story
+
+      branch_name = [story.story_type, story.id].join('-')
+      Project.config.repository.git.checkout({b: true, raise: true}, branch_name)
+    end
+
   end
 end

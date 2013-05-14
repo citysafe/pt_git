@@ -59,14 +59,15 @@ Given /^I list the items in the backlog$/ do
     Given there is a git repo
     And it contains a pivotal tracker token for a project
     And the project contains 11 items in the backlog
-    When I navigate to this repo
-    And I run the command to list the next items
+    And I navigate to this repo
   }
 end
 
 When /^I choose the second item$/ do
-  $stdin.write(2)
-  $stdin.flush
+  @stdin = StringIO.new
+  @stdin.puts '2'
+  @stdin.rewind
+  step "I run the command to list the next items"
 end
 
 Then /^I should be on a new git branch$/ do
@@ -75,5 +76,5 @@ end
 
 Then /^the branch name should include the story ID$/ do
   story = TestBed::Project.current.next_ten_stories[1]
-  expect(TestBed::Project.config.current_branch).to include(story.id)
+  expect(TestBed::Project.config.current_branch).to include(story.id.to_s)
 end

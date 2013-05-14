@@ -1,4 +1,3 @@
-@wip
 Feature: Choose a story from backlog by number
   In order to start working on a new feature quickly
   As a developer
