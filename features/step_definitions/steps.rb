@@ -32,9 +32,10 @@ end
 
 When /^I run the command to list the next items$/ do
   ENV['GIT_DIR'] = 'tmp/aruba/test_repo'
-  @output = capture(:stdout) do
-    TestBed::Pivotal.new.list_backlog
-  end
+  @stdin  ||= StringIO.new
+  @stdout ||= StringIO.new
+  TestBed::Pivotal.new(@stdin, @stdout).list_backlog
+  @output = @stdout.string
 end
 
 Then /^the output should contain (\d+) items$/ do |count|
