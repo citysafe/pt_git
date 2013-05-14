@@ -54,17 +54,25 @@ Then /^the (\d+)th item should not be present in the output$/ do |index|
 end
 
 Given /^I list the items in the backlog$/ do
-  pending
+  steps %Q{
+    Given there is a git repo
+    And it contains a pivotal tracker token for a project
+    And the project contains 11 items in the backlog
+    When I navigate to this repo
+    And I run the command to list the next items
+  }
 end
 
 When /^I choose the second item$/ do
-  pending
+  $stdin.write(2)
+  $stdin.flush
 end
 
 Then /^I should be on a new git branch$/ do
-  pending
+  expect(TestBed::Project.config.current_branch).not_to eq('master')
 end
 
 Then /^the branch name should include the story ID$/ do
-  pending
+  story = TestBed::Project.current.next_ten_stories[1]
+  expect(TestBed::Project.config.current_branch).to include(story.id)
 end
