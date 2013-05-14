@@ -57,3 +57,19 @@ end
 Then /^the (\d+)th item should not be present in the output$/ do |index|
   expect(@output).not_to include("Story #{index}")
 end
+
+Given /^I list the items in the backlog$/ do
+  pending
+end
+
+When /^I choose the second item$/ do
+  pending
+end
+
+Then /^I should be on a new git branch$/ do
+  pending
+end
+
+Then /^the branch name should include the story ID$/ do
+  pending
+end
