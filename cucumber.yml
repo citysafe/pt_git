@@ -1,0 +1,3 @@
+<% std_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} --tags ~@wip" %>
+default: <%= std_opts %> features
+wip: --tags @wip features
