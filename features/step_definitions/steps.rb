@@ -78,3 +78,15 @@ Then /^the branch name should include the story ID$/ do
   story = TestBed::Project.current.next_ten_stories[1]
   expect(TestBed::Project.config.current_branch).to include(story.id.to_s)
 end
+
+Given /^I am on a branch that contains the story ID$/ do
+  pending
+end
+
+When /^I make a commit$/ do
+  pending
+end
+
+Then /^I should see the story ID in the commit message$/ do
+  pending
+end
