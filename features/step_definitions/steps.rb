@@ -80,13 +80,20 @@ Then /^the branch name should include the story ID$/ do
 end
 
 Given /^I am on a branch that contains the story ID$/ do
-  pending
+  step "there is a git repo"
+
+  @story_id = '28991819'
+  run_simple("git co -B feature-#{@story_id}")
 end
 
 When /^I make a commit$/ do
-  pending
+  run_simple("touch README")
+  @repo = TestBed::Project.config.repository
+  @repo.add '.'
+  @repo.commit_index 'Initial commit'
 end
 
 Then /^I should see the story ID in the commit message$/ do
-  pending
+  commit_message = @repo.commits_since('HEAD').first.message
+  expect(commit_message).to include(@story_id)
 end

@@ -1,3 +1,4 @@
+@wip
 Feature: Insert the story ID from the current branch into the commit message by default
   In order to determine which story a commit belongs to
   As a developer
