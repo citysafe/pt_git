@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 
-require 'test_bed'
+require 'pt_git'
 
 TestBed::Pivotal.new.list_backlog

@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/test_bed/version', __FILE__)
+require File.expand_path('../lib/pt_git/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ["TheHamon"]
@@ -20,7 +20,7 @@ Gem::Specification.new do |gem|
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
-  gem.name          = "test_bed"
+  gem.name          = "pt_git"
   gem.require_paths = ["lib"]
   gem.version       = TestBed::VERSION
 end

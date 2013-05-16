@@ -1,4 +1,4 @@
-test_bed
+pt_git
 ========
 
 The gem is intended to simplify developer's live when dealing with pivotal tracker (PT) and git.
@@ -7,8 +7,6 @@ Features
 --------
 
 * `pt ls`
-* `pt git-branch`
-
 
 Examples
 --------
@@ -43,9 +41,9 @@ Requirements
 Install
 -------
 
-``gem install test_bed``
+``gem install pt_git``
 
-Once installed, test_bed needs two bits of info: your Pivotal Tracker API Token and your Pivotal Tracker project id:
+Once installed, pt_git needs two bits of info: your Pivotal Tracker API Token and your Pivotal Tracker project id:
 
 ``git config --global pivotal.api-token 123a456b``
 
