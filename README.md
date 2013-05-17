@@ -1,6 +1,7 @@
 pt_git
 ========
 
+
 The gem is intended to simplify developer's live when dealing with pivotal tracker (PT) and git.
 
 Features
