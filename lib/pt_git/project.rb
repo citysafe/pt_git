@@ -1,4 +1,4 @@
-module TestBed
+module PtGit
   class Project < PivotalTracker::Project
     include HappyMapper
 

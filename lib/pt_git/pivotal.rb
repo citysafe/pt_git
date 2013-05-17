@@ -1,4 +1,4 @@
-module TestBed
+module PtGit
   class Pivotal
     attr_reader :stdin, :stdout
 

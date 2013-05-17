@@ -22,5 +22,5 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = "pt_git"
   gem.require_paths = ["lib"]
-  gem.version       = TestBed::VERSION
+  gem.version       = PtGit::VERSION
 end

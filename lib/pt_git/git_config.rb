@@ -1,4 +1,4 @@
-module TestBed
+module PtGit
   class GitConfig
 
     attr_reader :repository

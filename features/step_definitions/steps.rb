@@ -34,7 +34,7 @@ When /^I run the command to list the next items$/ do
   ENV['DOT_GIT_DIR'] = 'tmp/aruba/test_repo'
   @stdin  ||= StringIO.new
   @stdout ||= StringIO.new
-  TestBed::Pivotal.new(@stdin, @stdout).list_backlog
+  PtGit::Pivotal.new(@stdin, @stdout).list_backlog
   @output = @stdout.string
 end
 
@@ -71,12 +71,12 @@ When /^I choose the second item$/ do
 end
 
 Then /^I should be on a new git branch$/ do
-  expect(TestBed::Project.config.current_branch).not_to eq('master')
+  expect(PtGit::Project.config.current_branch).not_to eq('master')
 end
 
 Then /^the branch name should include the story ID$/ do
-  story = TestBed::Project.current.next_ten_stories[1]
-  expect(TestBed::Project.config.current_branch).to include(story.id.to_s)
+  story = PtGit::Project.current.next_ten_stories[1]
+  expect(PtGit::Project.config.current_branch).to include(story.id.to_s)
 end
 
 Given /^I am on a branch that contains the story ID$/ do
@@ -88,7 +88,7 @@ end
 
 When /^I make a commit$/ do
   run_simple("touch README")
-  @repo = TestBed::Project.config.repository
+  @repo = PtGit::Project.config.repository
   @repo.add '.'
   @repo.commit_index 'Initial commit'
 end

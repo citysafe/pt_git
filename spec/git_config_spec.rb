@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe TestBed::GitConfig do
+describe PtGit::GitConfig do
 
   let(:mock_git_repo) { mock('Grit::Repo', config: git_config) }
   let(:api_token) { 'token' }
