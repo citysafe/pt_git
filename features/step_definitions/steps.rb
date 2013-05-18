@@ -2,7 +2,10 @@ Given /^there is a git repo$/ do
   create_dir 'test_repo'
   cd 'test_repo'
   run_simple('git init .')
-  ENV['DOT_GIT_DIR'] = 'tmp/aruba/test_repo/.git'
+  run_simple('touch README')
+  run_simple('git add .')
+  run_simple('git commit -m "Initial commit"')
+  ENV['DOT_GIT_DIR'] = "tmp/aruba#{ENV['TDDIUM_TID']}/test_repo/.git"
 end
 
 Given /^it contains a pivotal tracker token for a project$/ do
@@ -83,16 +86,16 @@ Given /^I am on a branch that contains the story ID$/ do
   step "there is a git repo"
 
   @story_id = '28991819'
-  run_simple("git co -B feature-#{@story_id}")
+  run_simple("git checkout -B feature-#{@story_id}")
 end
 
 When /^I make a commit$/ do
   PtGit::Project.config.install_git_hooks
 
-  run_simple("touch README")
+  run_simple("touch foo.rb")
   @repo = PtGit::Project.config.repository
   @repo.add '.'
-  @repo.commit_index 'Initial commit'
+  @repo.commit_index 'My commit'
 end
 
 Then /^I should see the story ID in the commit message$/ do

@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-branch_name  = `git symbolic-ref --short HEAD`.strip
+branch_name  = `git symbolic-ref HEAD`.strip
 message_file = ARGV[0]
 
 if branch_name =~ /[-_](\d+)\z/
