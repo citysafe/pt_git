@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+branch_name  = `git symbolic-ref --short HEAD`.strip
+message_file = ARGV[0]
+
+if branch_name =~ /[-_](\d+)\z/
+  story_number = $1
+  message = File.read(message_file).strip
+
+  exit 0 if message.include?("##{story_number}")
+
+  if ARGV[1] == 'message'
+    message << "\n\n[##{story_number}]"
+  else
+    message = "\n\n[##{story_number}]\n" + message
+  end
+
+  File.open(message_file, 'w') { |f| f.write(message) }
+end

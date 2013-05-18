@@ -4,6 +4,8 @@ module PtGit
 
     def initialize(stdin = $stdin, stdout = $stdout)
       @stdin, @stdout = stdin, stdout
+
+      Project.config.install_git_hooks
     end
 
     def list_backlog

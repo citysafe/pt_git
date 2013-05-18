@@ -2,6 +2,7 @@ Given /^there is a git repo$/ do
   create_dir 'test_repo'
   cd 'test_repo'
   run_simple('git init .')
+  ENV['DOT_GIT_DIR'] = 'tmp/aruba/test_repo/.git'
 end
 
 Given /^it contains a pivotal tracker token for a project$/ do
@@ -31,7 +32,6 @@ When /^I navigate to this repo$/ do
 end
 
 When /^I run the command to list the next items$/ do
-  ENV['DOT_GIT_DIR'] = 'tmp/aruba/test_repo'
   @stdin  ||= StringIO.new
   @stdout ||= StringIO.new
   PtGit::Pivotal.new(@stdin, @stdout).list_backlog
@@ -87,6 +87,8 @@ Given /^I am on a branch that contains the story ID$/ do
 end
 
 When /^I make a commit$/ do
+  PtGit::Project.config.install_git_hooks
+
   run_simple("touch README")
   @repo = PtGit::Project.config.repository
   @repo.add '.'

@@ -23,6 +23,11 @@ module PtGit
       repository.head.name
     end
 
+    def install_git_hooks
+      hook_templates = Dir[File.expand_path('../git_hooks/*', __FILE__)]
+      FileUtils.install hook_templates, git_hooks_dir, mode: 0755
+    end
+
     private
 
     def git_dir
@@ -38,6 +43,12 @@ module PtGit
 
       raise "No #{git_dir} directory found" if directories.empty?
       File.join(directories, git_dir)
+    end
+
+    def git_hooks_dir
+      File.join(git_root, 'hooks').tap do |hooks_dir|
+        FileUtils.mkdir_p hooks_dir
+      end
     end
 
   end
