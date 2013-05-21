@@ -11,7 +11,7 @@ module PtGit
     def list_backlog
       stories = project.next_ten_stories
       stories.each_with_index do |story, index|
-        say "#{index + 1}) #{story.story_type} #{story.id} #{story.name}"
+        say "#{index + 1}) [#{story.story_type}] [#{story.id}] [#{project.owner_initials_for(story)}] #{story.name}"
       end
 
       index = ask('Pick a story: ').to_i - 1

@@ -10,5 +10,5 @@ Feature: List the next 10 items from the backlog
     When I navigate to this repo
     And I run the command to list the next items
     Then the output should contain 10 items
-    And it should display the task ID, description and type
+    And it should display the task ID, description, type and owner
     And the 11th item should not be present in the output

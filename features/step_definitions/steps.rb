@@ -29,6 +29,10 @@ Given /^the project contains (\d+) items in the backlog$/ do |count|
   stories_url      = "#{project_url}/stories?#{params}"
   stories_response = File.read("#{fixtures_path}/stories.xml")
   stub_request(:get, stories_url).to_return(body: stories_response)
+
+  memberships_url = "#{project_url}/memberships"
+  memberships_response = File.read("#{fixtures_path}/memberships.xml")
+  stub_request(:get, memberships_url).to_return(body: memberships_response)
 end
 
 When /^I navigate to this repo$/ do
@@ -47,10 +51,11 @@ Then /^the output should contain (\d+) items$/ do |count|
   end
 end
 
-Then /^it should display the task ID, description and type$/ do
+Then /^it should display the task ID, description, type and owner$/ do
   expect(@output).to include('4459994')
   expect(@output).to include('Story 1')
   expect(@output).to include('feature')
+  expect(@output).to include('TL')
 end
 
 Then /^the (\d+)th item should not be present in the output$/ do |index|

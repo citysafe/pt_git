@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<memberships type="array">
+  <membership>
+    <id>331822</id>
+    <person>
+      <email>tien.le@thehamon.com</email>
+      <name>Tien Le</name>
+      <initials>TL</initials>
+    </person>
+    <role>Owner</role>
+    <project>
+      <id>123</id>
+      <name>Project 1</name>
+    </project>
+  </membership>
+</memberships>

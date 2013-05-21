@@ -9,6 +9,7 @@
     <description>Generic description</description>
     <name>Story 1</name>
     <requested_by>Brent Greeff</requested_by>
+    <owned_by>Tien Le</owned_by>
     <created_at type="datetime">2010/07/27 21:51:01 UTC</created_at>
     <updated_at type="datetime">2010/07/27 22:20:46 UTC</updated_at>
     <tasks type="array">

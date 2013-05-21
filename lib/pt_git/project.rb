@@ -21,5 +21,16 @@ module PtGit
 
       stories.all(conditions)
     end
+
+    def owner_initials_for(story)
+      membership = find_membership_by_name(story.owned_by)
+      membership.initials if membership
+    end
+
+    private
+
+    def find_membership_by_name(name)
+      memberships.all.find { |membership| membership.name == name }
+    end
   end
 end
