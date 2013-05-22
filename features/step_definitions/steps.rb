@@ -98,6 +98,7 @@ When /^I make a commit$/ do
   PtGit::Project.config.install_git_hooks
 
   run_simple("touch foo.rb")
+  sleep 1
   @repo = PtGit::Project.config.repository
   @repo.add '.'
   @repo.commit_index 'My commit'
