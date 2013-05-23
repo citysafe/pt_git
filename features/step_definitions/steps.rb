@@ -15,7 +15,7 @@ Given /^it contains a pivotal tracker token for a project$/ do
   run_simple("git config --local pivotal.use-ssl 1")
 end
 
-Given /^the project contains (\d+) items in the backlog$/ do |count|
+Given /^the project contains 10 unstarted items in the current and next backlog iteration$/ do
   PivotalTracker::Client.clear_connections
 
   api_url = PivotalTracker::Client.api_ssl_url
@@ -25,10 +25,9 @@ Given /^the project contains (\d+) items in the backlog$/ do |count|
   project_response = File.read("#{fixtures_path}/project.xml")
   stub_request(:get, project_url).to_return(body: project_response)
 
-  params = "filter=current_state:unstarted%20story_type:bug,chore,feature&limit=10"
-  stories_url      = "#{project_url}/stories?#{params}"
-  stories_response = File.read("#{fixtures_path}/stories.xml")
-  stub_request(:get, stories_url).to_return(body: stories_response)
+  iteration_url      = "#{project_url}/iterations/current_backlog?limit=1"
+  iteration_response = File.read("#{fixtures_path}/current_backlog.xml")
+  stub_request(:get, iteration_url).to_return(body: iteration_response)
 
   memberships_url = "#{project_url}/memberships"
   memberships_response = File.read("#{fixtures_path}/memberships.xml")
@@ -58,15 +57,15 @@ Then /^it should display the task ID, description, type and owner$/ do
   expect(@output).to include('TL')
 end
 
-Then /^the (\d+)th item should not be present in the output$/ do |index|
-  expect(@output).not_to include("Story #{index}")
+Then /^the started item should not be present in the output$/ do
+  expect(@output).not_to include('Started Story')
 end
 
 Given /^I list the items in the backlog$/ do
   steps %Q{
     Given there is a git repo
     And it contains a pivotal tracker token for a project
-    And the project contains 11 items in the backlog
+    And the project contains 10 unstarted items in the current and next backlog iteration
     And I navigate to this repo
   }
 end
@@ -83,7 +82,7 @@ Then /^I should be on a new git branch$/ do
 end
 
 Then /^the branch name should include the story ID$/ do
-  story = PtGit::Project.current.next_ten_stories[1]
+  story = PtGit::Project.current.next_unstarted_stories[1]
   expect(PtGit::Project.config.current_branch).to include(story.id.to_s)
 end
 

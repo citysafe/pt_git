@@ -16,10 +16,8 @@ module PtGit
       GitConfig.new
     end
 
-    def next_ten_stories
-      conditions = { limit: 10, current_state: 'unstarted', story_type: %w(bug chore feature) }
-
-      stories.all(conditions)
+    def next_unstarted_stories
+      current_backlog.map(&:stories).flatten.select(&:unstarted?)
     end
 
     def owner_initials_for(story)
@@ -31,6 +29,10 @@ module PtGit
 
     def find_membership_by_name(name)
       memberships.all.find { |membership| membership.name == name }
+    end
+
+    def current_backlog
+      PivotalTracker::Iteration.current_backlog(self, limit: 1)
     end
   end
 end

@@ -9,7 +9,7 @@ module PtGit
     end
 
     def list_backlog
-      stories = project.next_ten_stories
+      stories = project.next_unstarted_stories
       stories.each_with_index do |story, index|
         say "#{index + 1}) [#{story.story_type}] [#{story.id}] [#{project.owner_initials_for(story)}] #{story.name}"
       end
@@ -21,7 +21,7 @@ module PtGit
     end
 
     def project
-      Project.current
+      @project ||= Project.current
     end
 
     private
