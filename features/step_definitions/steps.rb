@@ -16,22 +16,16 @@ Given /^it contains a pivotal tracker token for a project$/ do
 end
 
 Given /^the project contains 10 unstarted items in the current and next backlog iteration$/ do
-  PivotalTracker::Client.clear_connections
+  clear_connections
 
-  api_url = PivotalTracker::Client.api_ssl_url
-  fixtures_path = File.join(File.dirname(__FILE__), '../fixtures')
+  project_url = "#{api_url}/projects/#{@project_id}"
+  stub_api(project_url, 'project.xml')
 
-  project_url      = "#{api_url}/projects/#{@project_id}"
-  project_response = File.read("#{fixtures_path}/project.xml")
-  stub_request(:get, project_url).to_return(body: project_response)
-
-  iteration_url      = "#{project_url}/iterations/current_backlog?limit=1"
-  iteration_response = File.read("#{fixtures_path}/current_backlog.xml")
-  stub_request(:get, iteration_url).to_return(body: iteration_response)
+  iteration_url = "#{project_url}/iterations/current_backlog?limit=1"
+  stub_api(iteration_url, 'current_backlog.xml')
 
   memberships_url = "#{project_url}/memberships"
-  memberships_response = File.read("#{fixtures_path}/memberships.xml")
-  stub_request(:get, memberships_url).to_return(body: memberships_response)
+  stub_api(memberships_url, 'memberships.xml')
 end
 
 When /^I navigate to this repo$/ do
