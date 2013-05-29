@@ -15,14 +15,17 @@ Given /^it contains a pivotal tracker token for a project$/ do
   run_simple("git config --local pivotal.use-ssl 1")
 end
 
-Given /^the project contains 10 unstarted items in the current and next backlog iteration$/ do
+Given /^the project contains 11 items in the backlog$/ do
   clear_connections
 
   project_url = "#{api_url}/projects/#{@project_id}"
   stub_api(project_url, 'project.xml')
 
-  iteration_url = "#{project_url}/iterations/current_backlog?limit=1"
-  stub_api(iteration_url, 'current_backlog.xml')
+  iteration_url = "#{project_url}/iterations/current_backlog?offset=0&limit=2"
+  stub_api(iteration_url, 'current_backlog_0_2.xml')
+
+  iteration_url = "#{project_url}/iterations/current_backlog?offset=3&limit=2"
+  stub_api(iteration_url, 'current_backlog_3_2.xml')
 
   memberships_url = "#{project_url}/memberships"
   stub_api(memberships_url, 'memberships.xml')
@@ -37,7 +40,7 @@ When /^I run the command to list the next items$/ do
   end
 end
 
-Then /^the output should contain (\d+) items$/ do |count|
+Then /^the output should contain (\d+) unstarted items$/ do |count|
   (1..count.to_i).each do |index|
     expect(@output).to include("Story #{index}")
   end
@@ -50,7 +53,11 @@ Then /^it should display the task ID, description, type and owner$/ do
   expect(@output).to include('TL')
 end
 
-Then /^the started item should not be present in the output$/ do
+Then /^the (\d+)th item should not be present in the output$/ do |index|
+  expect(@output).not_to include("Story #{index}")
+end
+
+Then /^started items should not be present in the output$/ do
   expect(@output).not_to include('Started Story')
 end
 
@@ -58,7 +65,7 @@ Given /^I list the items in the backlog$/ do
   steps %Q{
     Given there is a git repo
     And it contains a pivotal tracker token for a project
-    And the project contains 10 unstarted items in the current and next backlog iteration
+    And the project contains 11 items in the backlog
     And I navigate to this repo
   }
 end
@@ -105,7 +112,7 @@ Given /^I am in the project folder$/ do
   steps %Q{
     Given there is a git repo
     And it contains a pivotal tracker token for a project
-    And the project contains 10 unstarted items in the current and next backlog iteration
+    And the project contains 11 items in the backlog
   }
 end
 
