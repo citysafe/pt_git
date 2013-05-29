@@ -19,6 +19,13 @@ module PtGitHelpers
     response = read_fixture(fixture_filename)
     stub_request(method, url).to_return(body: response)
   end
+
+  def stub_stdin_stdout(&block)
+    @stdin  ||= StringIO.new
+    @stdout ||= StringIO.new
+    yield if block_given?
+    @output = @stdout.string
+  end
 end
 
 World(PtGitHelpers)

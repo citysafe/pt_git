@@ -32,10 +32,9 @@ When /^I navigate to this repo$/ do
 end
 
 When /^I run the command to list the next items$/ do
-  @stdin  ||= StringIO.new
-  @stdout ||= StringIO.new
-  PtGit::Pivotal.new(@stdin, @stdout).list_backlog
-  @output = @stdout.string
+  stub_stdin_stdout do
+    PtGit::Pivotal.new(@stdin, @stdout).list_backlog
+  end
 end
 
 Then /^the output should contain (\d+) items$/ do |count|
@@ -100,4 +99,85 @@ end
 Then /^I should see the story ID in the commit message$/ do
   commit_message = @repo.commits_since('HEAD').first.message
   expect(commit_message).to include(@story_id)
+end
+
+Given /^I am in the project folder$/ do
+  steps %Q{
+    Given there is a git repo
+    And it contains a pivotal tracker token for a project
+    And the project contains 10 unstarted items in the current and next backlog iteration
+  }
+end
+
+Given /^there are two stories in the backlog$/ do
+  doc            = Nokogiri::XML(read_fixture("stories.xml"))
+  @stories_nodes = doc.xpath("//story")[0, 2]
+  @stories       = @stories_nodes.map {|node| PivotalTracker::Story.parse(node.to_xml) }
+
+  @stories_nodes.each do |node|
+    story_url = "#{api_url}/projects/#{@project_id}/stories/#{node.at_xpath('id').text}"
+    stub_request(:get, story_url).to_return(body: node.to_s)
+
+    notes_url = "#{story_url}/notes"
+    stub_request(:get, notes_url).to_return(body: node.at_xpath('notes').to_s)
+  end
+end
+
+Given /^the first story has a description$/ do
+  expect(@stories.first.description).to_not be_empty
+end
+
+Given /^the second has no description$/ do
+  expect(@stories.last.description).to be_empty
+end
+
+When /^I show the first story$/ do
+  stub_stdin_stdout do
+    PtGit::Pivotal.new(@stdin, @stdout).show_story(@stories.first.id)
+  end
+end
+
+Then /^I should see its description$/ do
+  expect(@output).to include(@stories.first.description)
+end
+
+When /^I show the second story$/ do
+  stub_stdin_stdout do
+    PtGit::Pivotal.new(@stdin, @stdout).show_story(@stories.last.id)
+  end
+end
+
+Then /^I should see that there is no description$/ do
+  expect(@output).to include("Description:\n\n")
+end
+
+Given /^the first one has no comments$/ do
+  expect(@stories_nodes.first.xpath('.//note')).to be_empty
+end
+
+Given /^the second has two comments$/ do
+  expect(@stories_nodes.last.xpath('.//note').size).to eq(2)
+end
+
+Then /^I should see that it has no comments/ do
+  expect(@output).to_not include('Comment')
+end
+
+Then /^I should see that it has two comments$/ do
+  @comments = @stories_nodes.last.xpath('note')
+  @comments.each do |comment|
+    expect(@output).to include(comment.at_xpath('text').text)
+  end
+end
+
+Then /^I should see when the comments were made$/ do
+  @comments.each do |comment|
+    expect(@output).to include(comment.at_xpath('noted_at').text)
+  end
+end
+
+Then /^I should see who made the comments$/ do
+  @comments.each do |comment|
+    expect(@output).to include(comment.at_xpath('author').text)
+  end
 end

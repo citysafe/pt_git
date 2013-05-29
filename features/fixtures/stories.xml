@@ -12,6 +12,7 @@
     <owned_by>Tien Le</owned_by>
     <created_at type="datetime">2010/07/27 21:51:01 UTC</created_at>
     <updated_at type="datetime">2010/07/27 22:20:46 UTC</updated_at>
+    <notes type="array"></notes>
     <tasks type="array">
       <task>
         <id type="integer">468113</id>
@@ -43,7 +44,7 @@
     <url>http://www.pivotaltracker.com/story/show/4460038</url>
     <estimate type="integer">1</estimate>
     <current_state>unstarted</current_state>
-    <description>This is a story that has comments.</description>
+    <description></description>
     <name>Story 2</name>
     <requested_by>Brent Greeff</requested_by>
     <created_at type="datetime">2010/07/27 21:53:16 UTC</created_at>
@@ -60,24 +61,6 @@
         <text>Test note</text>
         <author>Test Suite Access</author>
         <noted_at type="datetime">2010/07/29 18:15:09 UTC</noted_at>
-      </note>
-      <note>
-        <id type="integer">2128959</id>
-        <text>Test note</text>
-        <author>Test Suite Access</author>
-        <noted_at type="datetime">2010/07/29 18:16:12 UTC</noted_at>
-      </note>
-      <note>
-        <id type="integer">2129077</id>
-        <text>Test note</text>
-        <author>Test Suite Access</author>
-        <noted_at type="datetime">2010/07/29 18:22:26 UTC</noted_at>
-      </note>
-      <note>
-        <id type="integer">2129374</id>
-        <text>Test note</text>
-        <author>Test Suite Access</author>
-        <noted_at type="datetime">2010/07/29 18:55:44 UTC</noted_at>
       </note>
     </notes>
   </story>

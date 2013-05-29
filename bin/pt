@@ -3,4 +3,4 @@ $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 
 require 'pt_git'
 
-PtGit::Pivotal.new.list_backlog
+PtGit::Pivotal.new.execute(ARGV)
