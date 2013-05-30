@@ -9,7 +9,7 @@ Feature: List the next 10 unstarted items from the backlog
     And the project contains 11 items in the backlog
     When I navigate to this repo
     And I run the command to list the next items
-    Then the output should contain 10 unstarted items
-    And it should display the task ID, description, type and owner
-    And the 11th item should not be present in the output
-    And started items should not be present in the output
+      Then the output should contain 10 unstarted items
+      And it should display the task ID, description, type and owner
+      And the 11th item should not be present in the output
+      And started items should not be present in the output
