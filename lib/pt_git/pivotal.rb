@@ -2,18 +2,23 @@ module PtGit
   class Pivotal
     attr_reader :stdin, :stdout
 
-    COMMANDS = { ls: 'list_backlog', show: 'show_story' }
-
     def initialize(stdin = $stdin, stdout = $stdout)
       @stdin, @stdout = stdin, stdout
 
       Project.config.install_git_hooks
     end
 
+    def get_command(arg)
+      {
+        'ls' => 'list_backlog',
+        'show'=> 'show_story'
+      }[arg]
+    end
+
     def execute(args)
-      send(COMMANDS[args.shift.to_sym], *args)
+      send(get_command(args.shift), *args)
     rescue => e
-      say("Cannot execute the command: #{e.message}")
+      say "Cannot execute the command: #{e.message}"
     end
 
     def list_backlog
